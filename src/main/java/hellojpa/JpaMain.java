@@ -18,9 +18,9 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member m = new Member(1L, "name", 1);
-            em.persist(m);
-            tx.commit();
+//            Member m = new Member();
+//            em.persist(m);
+//            tx.commit();
         } catch (Exception e) {
             tx.rollback();
         } finally {
