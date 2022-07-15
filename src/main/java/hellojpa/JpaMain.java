@@ -18,12 +18,8 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // batch insert
-            Member member1 = new Member(111L, "n1");
-            Member member2 = new Member(222L, "n1");
-            em.persist(member1);
-            em.persist(member2);
-
+            Member m = new Member(1L, "name", 1);
+            em.persist(m);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
