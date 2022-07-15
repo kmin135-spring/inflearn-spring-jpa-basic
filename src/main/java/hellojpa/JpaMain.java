@@ -18,23 +18,11 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // insert
-//            Member member = new Member();
-//            member.setId(1L);
-//            member.setName("name");
-//            em.persist(member);
-
-            // 조회 및 업데이트(갱신감지)
-//            Member member = em.find(Member.class, 1L);
-//            System.out.println(member);
-//            member.setName("changeName");
-
-            // 조건있는 조회
-            List<Member> resultList = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(0)
-                    .setMaxResults(10)
-                    .getResultList();
-            System.out.println(resultList);
+            // batch insert
+            Member member1 = new Member(111L, "n1");
+            Member member2 = new Member(222L, "n1");
+            em.persist(member1);
+            em.persist(member2);
 
             tx.commit();
         } catch (Exception e) {
