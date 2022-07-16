@@ -15,7 +15,7 @@ import java.util.List;
 // TABLE_PER_CLASS 는 부모테이블이 안 만들어지니 필요없음
 @DiscriminatorColumn
 @Setter @Getter
-public class Item {
+public abstract class Item extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "item_id")
