@@ -25,6 +25,10 @@ public class Mem {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @OneToOne
+    @JoinColumn(name = "locker_id")
+    private Locker locker;
+
     // 연관관계 매핑 편의메소드 (단순 setter가 아니라 의미를 가지는 전용 이름 정의)
     // 매핑메서드는 양쪽에 만들지말고 한쪽에 만들자 (무한 루프 방지)
     // 어디에 만들지는 시나리오에 따라 다르므로 그때그때 정의
