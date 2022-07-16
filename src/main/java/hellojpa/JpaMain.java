@@ -18,11 +18,6 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member m = new Member();
-            m.setUsername("abc");
-            System.out.println("before");
-            em.persist(m);
-            System.out.println("after");
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
