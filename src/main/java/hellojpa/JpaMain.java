@@ -2,6 +2,7 @@ package hellojpa;
 
 import hellojpa.entity.Order;
 import hellojpa.entity.OrderItem;
+import hellojpa.entity.items.Movie;
 import hellojpa.entity2.Mem;
 import hellojpa.entity2.Team;
 
@@ -23,6 +24,19 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Movie m = new Movie();
+            m.setActor("a");
+            m.setDirector("d");
+            m.setName("n");
+            m.setPrice(1);
+            m.setStockQuantity(2);
+
+            em.persist(m);
+
+            em.flush();
+            em.clear();
+
+            Movie findMovie = em.find(Movie.class, m.getId());
 
             tx.commit();
         } catch (Exception e) {
