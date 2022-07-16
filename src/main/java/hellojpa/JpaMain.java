@@ -1,5 +1,8 @@
 package hellojpa;
 
+import hellojpa.entity2.Mem;
+import hellojpa.entity2.Team;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -18,8 +21,27 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team t1 = new Team();
+            t1.setTeamName("team1");
+
+            em.persist(t1);
+
+            Mem m1 = new Mem();
+            m1.setName("user1");
+            m1.setTeam(t1);
+
+            em.persist(m1);
+
+            em.flush();
+            em.clear();
+
+            Mem findMem = em.find(Mem.class, m1.getId());
+            boolean result = findMem.getTeam() == t1;
+            System.out.println(result);
+
             tx.commit();
         } catch (Exception e) {
+            e.printStackTrace();
             tx.rollback();
         } finally {
             em.close();
