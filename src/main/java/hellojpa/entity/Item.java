@@ -1,4 +1,4 @@
-package hellojpa;
+package hellojpa.entity;
 
 import lombok.Getter;
 import lombok.Setter;

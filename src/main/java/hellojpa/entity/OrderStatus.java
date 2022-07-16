@@ -1,4 +1,4 @@
-package hellojpa;
+package hellojpa.entity;
 
 public enum OrderStatus {
     ORDER, CANCEL
