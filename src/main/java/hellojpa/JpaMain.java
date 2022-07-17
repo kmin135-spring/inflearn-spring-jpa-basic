@@ -1,19 +1,14 @@
 package hellojpa;
 
-import hellojpa.entity.Order;
-import hellojpa.entity.OrderItem;
-import hellojpa.entity.items.Movie;
-import hellojpa.entity2.Mem;
-import hellojpa.entity2.Team;
-import hellojpa.entity3.Child;
-import hellojpa.entity3.Parent;
-import org.hibernate.Hibernate;
+import hellojpa.entity4.Address;
+import hellojpa.entity4.Period;
+import hellojpa.entity4.MyUser;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
+import java.time.LocalDateTime;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -27,25 +22,12 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Child c1 = new Child();
-            c1.setName("c1");
-            Child c2 = new Child();
-            c2.setName("c2");
+            MyUser u = new MyUser();
+            u.setName("u1");
+//            u.setAddress(new Address("c1", "s1"));
+            u.setPeriod(new Period(LocalDateTime.now(), LocalDateTime.now().plusDays(1L)));
 
-            Parent p = new Parent();
-            p.setName("p1");
-            p.addChild(c1);
-            p.addChild(c2);
-
-            em.persist(p);
-//            em.persist(c1);
-//            em.persist(c2);
-
-            em.flush();
-            em.clear();
-
-            Parent findParent = em.find(Parent.class, p.getId());
-            findParent.getChildList().remove(0);
+            em.persist(u);
 
             tx.commit();
         } catch (Exception e) {

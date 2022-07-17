@@ -140,3 +140,10 @@ select m from Member m join fetch m.team
 * `cascade = CascadeType.ALL, orphanRemoval = true` 처럼 다 켜주면
 * 부모 엔티티로 자식 엔티티의 라이플 사이클 전체를 컨트롤 가능
 * DDD의 Aggregate Root 개념을 구현할 때 유용 
+
+## 임베디드 타입
+
+* 값이 추상화하여 표현할 수 있는 장점
+* 회원은 city, street 값을 가진다. -> 회원은 주소를 가진다.
+* 중복되는 경우 (ex. 집주소, 회사 주소를 동시에 가짐) 에는 @AttributeOverrides, @AttributeOverride 사용
+* 실무에서 그렇게 자주 쓰게되진 않으나 적용가능한 상황에서는 쓰면 좋다.
