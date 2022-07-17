@@ -1,9 +1,6 @@
 package hellojpa.entity4;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 
@@ -11,6 +8,7 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 @Getter
 @Embeddable
+@EqualsAndHashCode
 public class Address {
     private String city;
     private String street;
