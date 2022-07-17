@@ -147,3 +147,16 @@ select m from Member m join fetch m.team
 * 회원은 city, street 값을 가진다. -> 회원은 주소를 가진다.
 * 중복되는 경우 (ex. 집주소, 회사 주소를 동시에 가짐) 에는 @AttributeOverrides, @AttributeOverride 사용
 * 실무에서 그렇게 자주 쓰게되진 않으나 적용가능한 상황에서는 쓰면 좋다.
+
+---
+
+## 값 타입 세부사항
+
+* 값 타입은 불변 객체로 정의해서 쓰자
+* 예를들어 동일한 address 객체를 m1, m2에 모두 할당해놓고
+  * `m1.getAddress().setCity("newCity")` 를 해버리면 m2의 주소까지 변경되는 사이드 이펙이 발생하는데
+  * address를 불변객체로 만듬으로써 이런 일을 원천차단할 수 있다.
+* 나라면 정적 팩토리 메서드를 만들 것 같다.
+* 값 타입을 동등성을 갖도록 하자
+  * 따로 생성할 경우 동일성 `(a == b)` 을 가질 수는 없으니
+  * equals, hashcode 를 구현해서 동등성을 보장하자

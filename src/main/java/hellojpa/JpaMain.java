@@ -24,7 +24,7 @@ public class JpaMain {
         try {
             MyUser u = new MyUser();
             u.setName("u1");
-//            u.setAddress(new Address("c1", "s1"));
+            u.setAddress(new Address("c1", "s1"));
             u.setPeriod(new Period(LocalDateTime.now(), LocalDateTime.now().plusDays(1L)));
 
             em.persist(u);
