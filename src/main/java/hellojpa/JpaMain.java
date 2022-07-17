@@ -41,6 +41,12 @@ public class JpaMain {
 //            em.persist(c1);
 //            em.persist(c2);
 
+            em.flush();
+            em.clear();
+
+            Parent findParent = em.find(Parent.class, p.getId());
+            findParent.getChildList().remove(0);
+
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();

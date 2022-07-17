@@ -128,3 +128,15 @@ select m from Member m join fetch m.team
   * 예측이 힘들어짐
 
 ## 고아 객체
+
+* 참조가 제거된 엔티티는 다른 곳에서 참조하지 않는 고아 객체로 보고 삭제하는 기능
+* 영속성 전이와 마찬가지로 단일 소유하는 관계일 때만 쓰자
+* `@OneToOne`, `@OneToMany` 만 가능
+* 활성화하면 부모가 제거되면 자식도 제거됨
+  * `CascadeType.REMOVE` 처럼 동작하게됨
+
+## 영속성 전이 + 고아 객체
+
+* `cascade = CascadeType.ALL, orphanRemoval = true` 처럼 다 켜주면
+* 부모 엔티티로 자식 엔티티의 라이플 사이클 전체를 컨트롤 가능
+* DDD의 Aggregate Root 개념을 구현할 때 유용 
