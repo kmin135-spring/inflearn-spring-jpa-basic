@@ -17,15 +17,15 @@ public class Order extends BaseEntity {
     private Long id;
 
 //    private Long memberId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
     // 그냥 JPA만 쓰면 db 칼럼 네이밍이 그대로 camelcase로 들어가는데
