@@ -1,5 +1,6 @@
 package hellojpa.entity;
 
+import hellojpa.entity4.Address;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,9 +17,8 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
     private String name;
-    private String city;
-    private String street;
-    private String zipcode;
+    @Embedded
+    private Address address;
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();

@@ -24,37 +24,6 @@ public class JpaMain {
         tx.begin();
 
         try {
-            MyUser u = new MyUser();
-            u.setName("u1");
-            u.setHomeAddress(new Address("c1", "s1"));
-            u.setPeriod(new Period(LocalDateTime.now(), LocalDateTime.now().plusDays(1L)));
-
-            u.getFavoriteFoods().add("치킨");
-            u.getFavoriteFoods().add("피자");
-
-            u.getAddressHistory().add(new Address("old-c1", "old-s1"));
-            u.getAddressHistory().add(new Address("old-c2", "old-s2"));
-
-            em.persist(u);
-
-            em.flush();
-            em.clear();
-
-            System.out.println("========== 영속성 컨텍스트 다시 시작 ===========");
-
-            MyUser findUser = em.find(MyUser.class, u.getId());
-            System.out.println(findUser.getFavoriteFoods());
-
-            // 값 타입은 바꾸고 싶으면 새로 만들어라 (불변 객체, 사이드 이펙 방지)
-            findUser.setHomeAddress(new Address("c2", findUser.getHomeAddress().getStreet()));
-
-            // 치킨을 한식으로 바꾸고 싶다면?
-            findUser.getFavoriteFoods().remove("치킨");
-            findUser.getFavoriteFoods().add("한식");
-
-            // old1 을 new1으로 바꾸려면?
-            findUser.getAddressHistory().remove(new Address("old-c1", "old-s1"));
-            findUser.getAddressHistory().add(new Address("new-c1", "old-s1"));
 
             tx.commit();
         } catch (Exception e) {

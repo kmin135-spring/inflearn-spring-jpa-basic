@@ -160,6 +160,7 @@ select m from Member m join fetch m.team
 * 값 타입을 동등성을 갖도록 하자
   * 따로 생성할 경우 동일성 `(a == b)` 을 가질 수는 없으니
   * equals, hashcode 를 구현해서 동등성을 보장하자
+* @Embeddable 달아주면 @Embedded 는 안 달아도 되긴 하는데 가독성을 위해 둘 다 달아주자
 
 ## 값 타입 컬렉션
 
@@ -178,3 +179,9 @@ select m from Member m join fetch m.team
   * 추적할 필요도 없는 중요도가 낮을 때 정도?
 * 식별자가 필요하고 지속해서 값을 추적, 변경해야한다면 그건 값 타입이 아니라 엔티티다.
   * ex. 주소 히스토리는 별도로 관리되야하므로 엔티티다
+
+## equals 등 프록시 구조를 고려한 메서드 생성 주의사항
+
+* equals 를 만들 때 getter 메서드로 만들어야한다.
+* JPA에서 엔티티가 프록시로 들어올 경우 getter를 쓰지 않으면 원본 객체 (부모) 의 private 필드들을 볼 수가 없기 때문
+* equals 뿐만 아니라 프록시 구조를 상정한 경우에 공통으로 적용되는 주의사항
