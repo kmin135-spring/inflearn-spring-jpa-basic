@@ -5,6 +5,7 @@ import hellojpa.entity.OrderItem;
 import hellojpa.entity.items.Movie;
 import hellojpa.entity2.Mem;
 import hellojpa.entity2.Team;
+import org.hibernate.Hibernate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,19 +25,26 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Movie m = new Movie();
-            m.setActor("a");
-            m.setDirector("d");
-            m.setName("n");
-            m.setPrice(1);
-            m.setStockQuantity(2);
+            Team t = new Team();
+            t.setTeamName("t1");
+
+            em.persist(t);
+
+            Mem m = new Mem();
+            m.setName("m1");
+            m.setTeam(t);
 
             em.persist(m);
-
             em.flush();
             em.clear();
 
-            Movie findMovie = em.find(Movie.class, m.getId());
+            Mem findMem = em.find(Mem.class, m.getId());
+
+            System.out.println(findMem.getName());
+            Hibernate.initialize(findMem.getTeam());
+            System.out.println("===");
+            System.out.println(findMem.getTeam().getClass());
+            System.out.println(findMem.getTeam().getTeamName());
 
             tx.commit();
         } catch (Exception e) {

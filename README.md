@@ -87,3 +87,31 @@
 * 상속관계는 아니고 공통으로 사용되는 속성의 중복을 제거하고 싶을 때
 * 테이블이랑 상관없음. 엔티티 아님. 조회도 불가능함.
 * 직접 생성할 일이 없으니 추상 클래스 권장
+
+## 프록시
+
+* 실무에서는 항상 LAZY 로딩을 사용하자
+  * `@ManyToOne`, `@OneToOne` 은 기본이 `EAGER` 이니 주의
+  * 단, 동일 영속성 컨텍스트를 벗어난 뒤 초기화하면 프록시 초기화에 실패하게되니 초기화 시점에 주의하자
+* EAGER 는 실무에서는 쓰지마라! 대안이 있다.
+  * 즉시 로딩을 적용하면 실행되는 SQL을 예상하기 어려움 - 객체 그래프가 전부 EAGER 로 연결되어있다면...
+  * JPQL에서 N+1 문제를 일으키기 쉬움
+  * 대안 : JPQL fetch join, 엔티티 그래프
+
+```
+N+1 문제
+EAGER일 때 
+select m from Member m 이라는 JPQL로
+10건의 member를 select하면 
+member만 10건 select 후 EAGER 설정이 걸려있으니까
+연관된 Team을 얻기 위해 Team에 10번 쿼리가 추가로 나감
+
+member 100건을 select한다면 member 쿼리1번 + team 쿼리100번
+100+1 = 101번이 나가게됨
+
+em.find(Member.class, 1L); 은
+JPA가 알아서 Team과 join해서 얻어오는 것과의 다름
+
+JPQL의 대안은 아래와 같은 fetch join (inner join이 사용됨)
+select m from Member m join fetch m.team
+```
