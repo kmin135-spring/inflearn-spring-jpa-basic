@@ -212,3 +212,17 @@ select m from Member m join fetch m.team
 * 테이블 이름이 아니고 (member) 엔티티 이름을 사용 (Member)
 * 별칭 필수 (as 생략 가능)
 * 파라미터는 이름 기반만 사용 (위치 기반은 순서 밀리면 꼬인다.)
+
+### 프로젝션
+
+* SELECT 절에 조회할 대상을 지정하는 것
+* 프로젝션 대상 : 엔티티, 임베디드 타입, 스칼라 타입
+  * 엔티티 프로젝션은 영속성 컨텍스트로 관리됨
+* `select m.team from Member m` 이런식으로 암시적으로 join이 되게 하지 말고
+  * `select t from Member m join m.team t` 와 같이 명시적으로 짜는 것을 권장
+  * JQPL만 보고 빠르게 실제 수행되는 SQL쿼리를 알 수 있도록
+* 스칼라 타입 결과 얻기
+  * QUERY
+  * Object[]
+  * 전용 DTO 정의 : 좀 길어지지만 무난한 방법
+    * `select new jpabook.jpql.MemberDTO(m.username, m.age) from Member m`

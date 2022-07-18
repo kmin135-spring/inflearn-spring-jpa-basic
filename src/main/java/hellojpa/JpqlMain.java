@@ -2,8 +2,10 @@ package hellojpa;
 
 import hellojpa.entity.Member;
 import hellojpa.jpql.Member2;
+import hellojpa.jpql.MemberDTO;
 
 import javax.persistence.*;
+import java.util.List;
 
 public class JpqlMain {
     public static void main(String[] args) {
@@ -27,6 +29,10 @@ public class JpqlMain {
             typeQuery.setParameter("age", 10);
 
             typeQuery.getResultList();
+
+            List<MemberDTO> resultList = em.createQuery("select new hellojpa.jpql.MemberDTO(m.username, m.age) from Member2 m", MemberDTO.class)
+                    .getResultList();
+            System.out.println(resultList);
 
             tx.commit();
         } catch (Exception e) {
