@@ -1,19 +1,11 @@
 package hellojpa;
 
 import hellojpa.entity.Member;
-import hellojpa.entity4.Address;
-import hellojpa.entity4.Period;
-import hellojpa.entity4.MyUser;
+import hellojpa.jpql.Member2;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.*;
 
-public class JpaMain {
+public class JpqlMain {
     public static void main(String[] args) {
         // 앱당 1개
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
@@ -25,8 +17,17 @@ public class JpaMain {
         tx.begin();
 
         try {
-            em.createQuery("select m from Member m where m.name like 'kim%'", Member.class)
-                    .getResultList();
+            Member2 m = new Member2();
+            m.setUsername("m1");
+            m.setAge(10);
+
+            em.persist(m);
+
+            TypedQuery<Member2> typeQuery = em.createQuery("select m from Member2 m where m.age = :age", Member2.class);
+            typeQuery.setParameter("age", 10);
+
+            typeQuery.getResultList();
+
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();

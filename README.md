@@ -185,3 +185,30 @@ select m from Member m join fetch m.team
 * equals 를 만들 때 getter 메서드로 만들어야한다.
 * JPA에서 엔티티가 프록시로 들어올 경우 getter를 쓰지 않으면 원본 객체 (부모) 의 private 필드들을 볼 수가 없기 때문
 * equals 뿐만 아니라 프록시 구조를 상정한 경우에 공통으로 적용되는 주의사항
+
+## 복잡도별 권장 기술
+
+* 간단 : spring-data-jpa
+* 조금 복잡 : JPQL
+  * **결국은 JPQL을 잘 알아야 다른것도 잘 함**
+  * 그리고 JPQL은 최종적으로 SQL로 변환되므로 당연히 SQL도 잘 알아야함
+* 꽤 복잡 : QueryDSL (JPQL 빌더 역할)
+* 많이 복잡 or 벤더 종속적인 쿼리 : SpringJdbcTemplate, MyBatis 등
+  * 강사님은 JPA의 NativeQuery는 안 쓰고 SpringJdbcTemplate 을 선호한다고함
+  * 주의! : JPA의 NativeQuery를 제외하고 다른 기술들은 당연히 JPA 영속성 컨텍스트와 상관없으므로 동일 트랜잭션에 내에서 쓴다면 수동으로 영속성 컨텍스트를 flush 하고 사용해야함
+    * 참고로 자동 flush는 tx commit할 때도 나가지만 nativeQuery가 나갈 때도 발생함. (그래야 쿼리가 가능하니까)
+
+---
+
+* JPA표준 Criteria 는 복잡도가 높고 가독성이 너무 떨어져서 실무 사용 X
+* 강사님은 실무에서 95%는 JPQL, QueryDSL로 커버가 된다고 하고 정 안 되는 나머지들을 다른 기술들을 쓴다고 함
+
+## JPQL
+
+### 기본
+
+* 엔티티, 속성은 대소문자 구분하니 주의
+* JPQL 키워드는 대소문자 구분 X (select, WHERE)
+* 테이블 이름이 아니고 (member) 엔티티 이름을 사용 (Member)
+* 별칭 필수 (as 생략 가능)
+* 파라미터는 이름 기반만 사용 (위치 기반은 순서 밀리면 꼬인다.)

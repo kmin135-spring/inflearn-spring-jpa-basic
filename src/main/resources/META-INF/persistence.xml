@@ -7,6 +7,10 @@
         <class>hellojpa.entity3.Parent</class>
         <class>hellojpa.entity3.Child</class>
         <class>hellojpa.entity4.MyUser</class>
+        <class>hellojpa.jpql.Member2</class>
+        <class>hellojpa.jpql.Team2</class>
+        <class>hellojpa.jpql.Order2</class>
+        <class>hellojpa.jpql.Product</class>
         <properties>
             <!-- 필수 속성 -->
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
