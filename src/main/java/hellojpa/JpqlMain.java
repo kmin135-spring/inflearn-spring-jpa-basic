@@ -22,15 +22,21 @@ public class JpqlMain {
             Member2 m = new Member2();
             m.setUsername("m1");
             m.setAge(10);
-
             em.persist(m);
 
-            TypedQuery<Member2> typeQuery = em.createQuery("select m from Member2 m where m.age = :age", Member2.class);
+            Member2 m2 = new Member2();
+            m2.setUsername("m2");
+            m2.setAge(20);
+            em.persist(m2);
+
+            TypedQuery<Member2> typeQuery = em.createQuery("select m from Member2 m where m.age >= :age", Member2.class);
             typeQuery.setParameter("age", 10);
 
             typeQuery.getResultList();
 
-            List<MemberDTO> resultList = em.createQuery("select new hellojpa.jpql.MemberDTO(m.username, m.age) from Member2 m", MemberDTO.class)
+            List<MemberDTO> resultList = em.createQuery("select new hellojpa.jpql.MemberDTO(m.username, m.age) from Member2 m order by m.age desc", MemberDTO.class)
+                    .setFirstResult(0)
+                    .setMaxResults(1)
                     .getResultList();
             System.out.println(resultList);
 

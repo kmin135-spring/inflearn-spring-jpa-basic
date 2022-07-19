@@ -226,3 +226,9 @@ select m from Member m join fetch m.team
   * Object[]
   * 전용 DTO 정의 : 좀 길어지지만 무난한 방법
     * `select new jpabook.jpql.MemberDTO(m.username, m.age) from Member m`
+
+### 페이징
+
+* 페이징은 JQPL 로 쓰지 않고
+* `setFirstResult(), setMaxResult()` 메서드로 추상화했음.
+* 벤더별로 따로 노는 페이징 쿼리를 편하게 사용 가능
