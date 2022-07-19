@@ -232,3 +232,44 @@ select m from Member m join fetch m.team
 * 페이징은 JQPL 로 쓰지 않고
 * `setFirstResult(), setMaxResult()` 메서드로 추상화했음.
 * 벤더별로 따로 노는 페이징 쿼리를 편하게 사용 가능
+
+### 조인
+
+* SQL과 유사
+
+### 서브 쿼리
+
+* JPA 는 WHERE, HAVING 에서 가능
+* 하이버네이트는 select 에서도 가능
+* 단, FROM 절의 서브 쿼리는 JPQL에서 불가
+  * 가장 좋은건 조인으로 풀 수 있으면 조인으로 해결
+  * 강사님은 이런 경우 애플리케이션에서 풀어서 처리하는 편이라 함. 쿼리를 두 번 보낸다던가.
+  * FROM 절 결과가 너무 크거나 해서 두 번 쿼리도 여의치 않으면 최후의 수단은 네이티브 쿼리
+
+### 조건식
+
+* JPQL 레벨에서 case, coalesce, nullif 지원
+
+### 함수
+
+* CONCAT, SUBSTRING, TRIM, LOCATE, LENGTH 등의 기본 함수를 JPQL로 추상화하여 지원
+* SIZE, INDEX는 JPA 전용 함수
+  * INDEX는 값 타입 컬렉션의 인덱스 얻을 때 쓰는데 거의 쓸 일 없다.
+* DB 종속적인 함수들은 방언에 추가하여 사용해야한다.
+  * 각 DBMS 벤더별 함수들은 방언별로 이미 등록되어있다.
+```java
+// H2Dialect.class 구현 일부
+// this.registerFunction("ltrim", new StandardSQLFunction("ltrim", StandardBasicTypes.STRING));
+// this.registerFunction("octet_length", new StandardSQLFunction("octet_length", StandardBasicTypes.INTEGER));
+```
+  * 그 외의 사용자 함수들은 방언을 직접 구현하여 사용할 함수를 방언에 추가해야 JPQL에서 사용이 가능하다.
+    * `MyH2Dialect.java` 참고
+
+---
+
+* 참고로 JPQL 에서 함수 호출의 경우
+* `select function('group_concat', i.name) from Item i`
+  * JPA 는 기본적으로 위와 같이 써야하지만
+* 하이버네이트는 `select group_concat(i.name) from Item i` 와 같이 사용 가능함
+  * 근데 intellij가 기본적으로 문법 오류를 띄움 (실행은 잘 됨)
+  * intellij 에서 Inject language or reference 를 HQL로 설정해주면 문법오류도 안 잡힘.
